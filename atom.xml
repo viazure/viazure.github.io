@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-04-01T09:01:26.408Z</updated>
+  <updated>2019-04-01T09:33:15.530Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="http://yoursite.com/2019/04/01/hello-world/"/>
     <id>http://yoursite.com/2019/04/01/hello-world/</id>
     <published>2019-04-01T08:35:31.000Z</published>
-    <updated>2019-04-01T09:01:26.408Z</updated>
+    <updated>2019-04-01T09:33:15.530Z</updated>
     
     <content type="html"><![CDATA[<p>迫于想把一些有丶意思的东西分享给你，我建了这个博客</p><p>End.</p>]]></content>
     
@@ -36,6 +36,8 @@
     
     </summary>
     
+    
+      <category term="Blog" scheme="http://yoursite.com/tags/Blog/"/>
     
   </entry>
   
