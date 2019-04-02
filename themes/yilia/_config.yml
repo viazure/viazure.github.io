@@ -2,7 +2,7 @@
 
 menu:
   主页: /
-  随笔: /tags/随笔/
+  音乐: /music
 
 # SubNav
 subnav:
@@ -73,7 +73,7 @@ favicon: /assets/img/favicon.ico
 avatar: https://i.loli.net/2019/03/31/5ca0aa7d29fec.png
 
 #是否开启分享
-share_jia: true
+share_jia: false
 
 #评论：1、多说；2、网易云跟帖；3、畅言；4、Disqus；5、Gitment
 #不需要使用某项，直接设置值为false，或注释掉
@@ -118,7 +118,7 @@ slider:
 #  friends: false
 smart_menu:
   innerArchive: '所有文章'
-  friends: false
+  friends: '友链'
   aboutme: '关于我'
 
 friends:

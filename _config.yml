@@ -110,3 +110,6 @@ jsonContent:
     excerpt: false
     categories: false
     tags: true
+
+aplayer:
+  meting: true
