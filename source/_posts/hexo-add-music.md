@@ -1,6 +1,6 @@
 ---
 title: 一行命令为你的 Hexo 博客整一个音乐播放器
-date: 2019-04-03 11:54:29
+date: 2019-04-03 11:5:29
 tags: 
   - blog
   - hexo
@@ -41,7 +41,7 @@ aplayer:
 ```
 
 效果如下：
-{% meting "5123738370" "tencent" "playlist" %}
+{% meting "33374262" "netease" "playlist" %}
 
 更多用法请参考 hexo-tag-aplayer 的[中文文档](https://github.com/MoePlayer/hexo-tag-aplayer/blob/master/docs/README-zh_cn.md)
 
