@@ -26,7 +26,7 @@ npm install --save hexo-tag-aplayer
 
 hexo-tag-aplayer 现在的版本新增了 MeingJS 的支持，[MetingJS](https://github.com/metowolf/MetingJS) 是基于[Meting API](https://github.com/metowolf/Meting) 的 APlayer 衍生播放器，引入 MetingJS 后，播放器将支持对于 QQ音乐、网易云音乐、虾米、酷狗、百度等平台的音乐播放。
 
-这里我们在 Hexo 配置文件 `_config.yml` 中增加下面的设置：
+首先，在 Hexo 配置文件 `_config.yml` 中增加下面的设置：
 
 ```yaml
 aplayer:
@@ -34,7 +34,7 @@ aplayer:
 ```
 
 
-最后在我们的文章页面里增加这样一行代码：
+最后在你的文章页面里增加这样一行代码：
 
 ```
 {% meting "33374262" "netease" "playlist" %}
@@ -43,6 +43,6 @@ aplayer:
 效果如下：
 {% meting "33374262" "netease" "playlist" %}
 
-更多用法请参考 hexo-tag-aplayer 的[中文文档](https://github.com/MoePlayer/hexo-tag-aplayer/blob/master/docs/README-zh_cn.md)
+OK，完事儿！
 
-好的，完事儿！
+更多用法可以参考 hexo-tag-aplayer 的[中文文档](https://github.com/MoePlayer/hexo-tag-aplayer/blob/master/docs/README-zh_cn.md)。
