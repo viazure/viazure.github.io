@@ -1,5 +1,5 @@
 ---
-title: 实现在 Andriod 手机写 Hexo 博客
+title: 实现在 Andriod 手机上写 Hexo 博客
 date: 2019-04-04 18:56:07
 tags: 
   - Blog
@@ -91,4 +91,5 @@ apt install nodejs
 ```
 
 ## 源文件提交到Github时提示无权限
+
 在编辑完 Markdown 文件移动回`_posts`目录后，需要授予读写权限，否则无法提交。建议将**用户组**和**其他**的读、写权限都勾上。
