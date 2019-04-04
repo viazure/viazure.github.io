@@ -1,6 +1,6 @@
 ---
 title: 一行命令为你的 Hexo 博客整一个音乐播放器
-date: 2019-04-03 11:5:29
+date: 2019-04-03 11:54:29
 tags: 
   - Blog
   - Hexo
@@ -17,7 +17,7 @@ tags:
 
 ## 安装
 
-进入hexo 博客所在目录，使用命令安装 hexo-tag-aplayer
+进入 Hexo 博客所在目录，使用命令安装 hexo-tag-aplayer
 
 ```
 npm install --save hexo-tag-aplayer
