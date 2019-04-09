@@ -3,6 +3,7 @@
 menu:
   主页: /
   音乐: /music
+  归档:  /archives
 
 # SubNav
 subnav:
@@ -33,7 +34,7 @@ root: /
 # Content
 
 # 文章太长，截断按钮文字
-excerpt_link: more
+excerpt_link: false
 # 文章卡片右下角常驻链接，不需要请设置为false
 show_all_link: '展开全文'
 # 数学公式
@@ -70,7 +71,7 @@ google_analytics: ''
 favicon: /assets/img/favicon.ico
 
 #你的头像url
-avatar: https://i.loli.net/2019/03/31/5ca0aa7d29fec.png
+avatar: /assets/img/avatar.png
 
 #是否开启分享
 share_jia: false
@@ -117,11 +118,11 @@ slider:
 #smart_menu:
 #  friends: false
 smart_menu:
-  innerArchive: '所有文章'
+  innerArchive: '搜索'
   friends: '友链'
   aboutme: '关于我'
 
 friends:
   Wenwen: https://n3taway.github.io/
 
-aboutme: 一个普通码农，
+aboutme: 一个普通码农，<s>极客</s>

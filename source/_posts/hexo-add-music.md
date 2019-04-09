@@ -19,9 +19,10 @@ tags:
 
 进入 Hexo 博客所在目录，使用命令安装 hexo-tag-aplayer
 
-```
+```bash
 npm install --save hexo-tag-aplayer
 ```
+
 ## 使用
 
 hexo-tag-aplayer 现在的版本新增了 MeingJS 的支持，[MetingJS](https://github.com/metowolf/MetingJS) 是基于[Meting API](https://github.com/metowolf/Meting) 的 APlayer 衍生播放器，引入 MetingJS 后，播放器将支持对于 QQ音乐、网易云音乐、虾米、酷狗、百度等平台的音乐播放。
@@ -33,10 +34,9 @@ aplayer:
   meting: true
 ```
 
-
 最后在你的文章页面里增加这样一行代码：
 
-```
+```text
 {% meting "33374262" "netease" "playlist" %}
 ```
 
