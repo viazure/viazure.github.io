@@ -47,7 +47,7 @@ npm install hexo-cli -g
 使用 git 克隆博客的源文件到手机
 
 ```bash
-git https://github.com/xxx/xxx.github.io.git
+git clone https://github.com/xxx/xxx.github.io.git
 ```
 
 **这里需要事先将 Hexo 的源文件备份到 Github 上，我这里采用的是 Github分支备份的方式，具体请搜索“Hexo 备份”，网上很多详细的教程，这里就不再赘述了。**
