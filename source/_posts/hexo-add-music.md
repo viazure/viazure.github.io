@@ -5,13 +5,12 @@ tags:
   - Blog
   - Hexo
 ---
-![给我也整一个！](https://wx4.sinaimg.cn/large/0068Lfdegy1fzsb3jvxfdj309q09qmzj.jpg)
 
-为了让我的博客更加丰满，也为了找到音乐口味和我相似的朋友，我给我的博客增加了一个播放音乐的页面，就是👈那个`音乐`啦！
+为了充实我的博客，也为了找到音乐口味和我相似的朋友，我给我的博客增加了一个播放音乐的页面，就是👈那个`音乐`啦！
 
 简单记录一下实现的过程：
 
-为了实现这个需求，我使用了 [hexo-tag-aplayer](https://github.com/MoePlayer/hexo-tag-aplayer)，它是基于[APlayer](https://github.com/MoePlayer/APlayer) 播放器的 Hexo 标签插件。APlayer 是目前广泛使用的 HTML5 音乐播放器，这里暂不深入研究，以后再去折腾。
+为了实现这个功能，我使用了 [hexo-tag-aplayer](https://github.com/MoePlayer/hexo-tag-aplayer)，它是基于[APlayer](https://github.com/MoePlayer/APlayer) 播放器的 Hexo 标签插件。APlayer 是目前广泛使用的 HTML5 音乐播放器，这里暂不深入研究，以后再去折腾。
 
 <!--more-->
 
