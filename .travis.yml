@@ -1,0 +1,32 @@
+# 配置语言及相应版本
+language: node_js
+node_js: stable
+
+# 只监听项目源代码所在分支的变动
+branches:
+  only:
+    - source
+
+# 缓存依赖，节省持续集成时间
+cache:
+  directories:
+    - node_modules
+
+before_install:
+  - npm install -g hexo-cli
+
+install:
+  - npm install
+  - npm install hexo-deployer-git --save
+
+# 设置git提交名，邮箱；替换真实token到_config.yml文件，最后depoy部署
+after_script:
+  - git config user.name "viazure"
+  - git config user.email "vicrease@gmail.com"
+  # 替换同目录下的_config.yml文件中gh_token字符串为travis后台刚才配置的变量，注意此处sed命令用了双引号。单引号无效！
+  - sed -i "s/gh_token/${gh_token}/g" ./_config.yml
+  - hexo deploy
+
+script:
+  - hexo clean
+  - hexo g

@@ -79,7 +79,7 @@ theme: yilia
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repository: https://github.com/viazure/viazure.github.io.git
+  repository: https://gh_token@github.com/viazure/viazure.github.io.git
   branch: master
 
 sitemap:
