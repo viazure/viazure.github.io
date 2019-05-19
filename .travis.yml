@@ -13,20 +13,24 @@ cache:
     - node_modules
 
 before_install:
+  # 安装hexo环境
   - npm install -g hexo-cli
 
 install:
+  # 安装hexo及插件
   - npm install
   - npm install hexo-deployer-git --save
 
-# 设置git提交名，邮箱；替换真实token到_config.yml文件，最后depoy部署
 after_script:
+  # 设置git提交名，邮箱
   - git config user.name "viazure"
   - git config user.email "vicrease@gmail.com"
-  # 替换同目录下的_config.yml文件中gh_token字符串为travis后台刚才配置的变量，注意此处sed命令用了双引号。单引号无效！
+  # 替换同目录下的 _config.yml 文件中 gh_token 字符串为 travis 后台刚才配置的变量名称，注意此处sed命令用了双引号。单引号无效！
   - sed -i "s/gh_token/${gh_token}/g" ./_config.yml
-  - hexo deploy
+  # 使用 hexo 自带部署命令，可以少写几行提交静态文件的命令，提交的日志还自带文件更新时间，美滋滋~
+  - hexo d
 
 script:
+  # 执行清缓存，生成网页操作
   - hexo clean
   - hexo g

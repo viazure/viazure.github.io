@@ -79,6 +79,7 @@ theme: yilia
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
+  # 下方的 gh_token 会被 .travis.yml 中 sed 命令替换
   repository: https://gh_token@github.com/viazure/viazure.github.io.git
   branch: master
 
