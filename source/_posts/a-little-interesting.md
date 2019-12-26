@@ -1,10 +1,10 @@
 ---
 title: 段子手养成计划
 date: 2019-04-22 09:21:12
-tags: 
+tags:
   - 杂记
 ---
-🕔 Updated 2019.05.12
+🕞 Updated 2019.12.26
 
 <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=1357582780&auto=0&height=66"></iframe>
 
@@ -118,3 +118,9 @@ tags:
 跟平时一样，当我想摆脱一个我不愿意听他说话的人时，我就作出赞同的样子。
 
 — 加缪《局外人》
+***
+手机刷多了会觉得耽误正事；
+游戏玩久了会觉得虚度光阴；
+游乐场的五光十色，又稍显简单幼稚；
+以健康为名的各种运动，有难以长期坚持；
+只有吃饭这件事，几十年如一日，却从未厌倦，始终期许。
