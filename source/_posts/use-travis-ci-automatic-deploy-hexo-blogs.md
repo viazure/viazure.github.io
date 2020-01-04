@@ -22,7 +22,7 @@ date: 2019-05-26 14:14:34
 
 ### Travis CI 设置
 
-首先进入 Travis CI 官网 https://travis-ci.org/ ，点击右上角的 Sign in with GitHub 的按钮，使用自己的 Github 账号登录，登录成功后，在主页面勾选上你需要启用的博客项目。
+首先进入 Travis CI 官网 <https://travis-ci.org/> ，点击右上角的 Sign in with GitHub 的按钮，使用自己的 Github 账号登录，登录成功后，在主页面勾选上你需要启用的博客项目。
 ![UTOOLS1558775202523.png](https://i.loli.net/2019/05/25/5ce905a2e36c495485.png)
 
 点击 Setings 按钮进入设置界面， `More option -> Settings`

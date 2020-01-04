@@ -1,7 +1,7 @@
 ---
 title: 一行命令为你的 Hexo 博客整一个音乐播放器
 date: 2019-04-03 11:54:29
-tags: 
+tags:
   - Blog
   - Hexo
 ---
