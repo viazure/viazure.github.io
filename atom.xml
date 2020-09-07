@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>viazure的博客</title>
+  
+  <subtitle>何以解忧，唯有吃肉</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://yoursite.com/"/>
+  <updated>2020-09-07T10:29:38.631Z</updated>
+  <id>http://yoursite.com/</id>
+  
+  <author>
+    <name>viazure</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>使用 Travis CI 自动部署 Hexo 博客</title>
+    <link href="http://yoursite.com/2019/05/26/use-travis-ci-automatic-deploy-hexo-blogs/"/>
+    <id>http://yoursite.com/2019/05/26/use-travis-ci-automatic-deploy-hexo-blogs/</id>
+    <published>2019-05-26T14:14:34.000Z</published>
+    <updated>2020-09-07T10:29:38.631Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/assets/js/Meting.min.js"></script><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>前段时间折腾了下手机写博客，但是 Termux 不是太稳定重装了两次，导致博客所需要的环境也跟着重装了两次。在重装 Hexo 时突然又遇到一些莫名奇妙的问题，不想把时间浪费在这上面了，恰好之前看到过 Travis CI 可以自动部署博客的相关文章，所以这次就试着折腾了一下。</p><a id="more"></a><h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><h3 id="申请-GitHub-Access-Token"><a href="#申请-GitHub-Access-Token" class="headerlink" title="申请 GitHub Access Token"></a>申请 GitHub Access Token</h3><p>在使用 Travis CI 之前，需要申请一个 Github token ，方便之后使用。打开 GitHub 主页，账号 -&gt; Developer Settings -&gt; Personal access tokens -&gt; Generate new token<br>按照提示输入密码，然后会跳转到创建 token 的界面，在 Note 取一个名字，勾选 repo 下的所有权限。<br><img src="https://i.loli.net/2019/05/25/5ce90cad642f590717.png" alt="UTOOLS1558777004909.png"><br>生成完成后，将该 token 拷贝下来，这个 token 页面只会出现一次，忘了就只能重新申请了。</p><h3 id="Travis-CI-设置"><a href="#Travis-CI-设置" class="headerlink" title="Travis CI 设置"></a>Travis CI 设置</h3><p>首先进入 Travis CI 官网 <a href="https://travis-ci.org/" target="_blank" rel="noopener">https://travis-ci.org/</a> ，点击右上角的 Sign in with GitHub 的按钮，使用自己的 Github 账号登录，登录成功后，在主页面勾选上你需要启用的博客项目。<br><img src="https://i.loli.net/2019/05/25/5ce905a2e36c495485.png" alt="UTOOLS1558775202523.png"></p><p>点击 Setings 按钮进入设置界面， <code>More option -&gt; Settings</code><br><img src="https://i.loli.net/2019/05/25/5ce9099bef00187419.png" alt="UTOOLS1558776219709.png"></p><p>General 选项卡和 Auto Cancellation 选项卡中保持默认选项即可，在 Environment Variables 选项卡中的 value 文本框中填入刚刚申请的 token，在 name 文本框中填入一个名称，这个名称我们在写 Travis CI 的配置文件时会用到。</p><blockquote><p>这里可以看到我已经填过一个名为 <code>gh_token</code> 的密钥了，下面我就会用到<code>gh_token</code> 这个名称。</p></blockquote><h3 id="编辑配置文件"><a href="#编辑配置文件" class="headerlink" title="编辑配置文件"></a>编辑配置文件</h3><p>在 hexo 博客源代码路径的根目录下创建 <code>.travis.yml</code> 配置文件，我的配置文件如下：</p><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 配置语言及相应版本</span></span><br><span class="line"><span class="attr">language:</span> <span class="string">node_js</span></span><br><span class="line"><span class="attr">node_js:</span> <span class="string">stable</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 只监听项目源代码所在分支的变动，我这里的源代码分支为 `source`</span></span><br><span class="line"><span class="attr">branches:</span></span><br><span class="line">  <span class="attr">only:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">source</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 缓存依赖，节省持续集成时间</span></span><br><span class="line"><span class="attr">cache:</span></span><br><span class="line">  <span class="attr">directories:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">node_modules</span></span><br><span class="line"></span><br><span class="line"><span class="attr">before_install:</span></span><br><span class="line">  <span class="comment"># 安装hexo环境</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">npm</span> <span class="string">install</span> <span class="string">-g</span> <span class="string">hexo-cli</span></span><br><span class="line"></span><br><span class="line"><span class="attr">install:</span></span><br><span class="line">  <span class="comment"># 安装hexo及插件</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">npm</span> <span class="string">install</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">npm</span> <span class="string">install</span> <span class="string">hexo-deployer-git</span> <span class="string">--save</span></span><br><span class="line"></span><br><span class="line"><span class="attr">after_script:</span></span><br><span class="line">  <span class="comment"># 设置git提交名，邮箱</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">git</span> <span class="string">config</span> <span class="string">user.name</span> <span class="string">"viazure"</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">git</span> <span class="string">config</span> <span class="string">user.email</span> <span class="string">"vicrease@gmail.com"</span></span><br><span class="line">  <span class="comment"># 替换同目录下的 _config.yml 文件中 gh_token 字符串为 travis 后台刚才配置的变量名称，注意此处sed命令用了双引号。单引号无效！</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">sed</span> <span class="string">-i</span> <span class="string">"s/gh_token/$&#123;gh_token&#125;/g"</span> <span class="string">./_config.yml</span></span><br><span class="line">  <span class="comment"># 使用 hexo 自带部署命令，可以少写几行提交静态文件的命令，提交的日志还自带文件更新时间，美滋滋~</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">hexo</span> <span class="string">d</span></span><br><span class="line"></span><br><span class="line"><span class="attr">script:</span></span><br><span class="line">  <span class="comment"># 执行清缓存，生成静态文件操作</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">hexo</span> <span class="string">clean</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">hexo</span> <span class="string">g</span></span><br></pre></td></tr></table></figure><p>接下来再打开同一路径下的 Hexo 的配置文件 <code>_config.yml</code> ，修改其中的 <code>deploy</code> 节点的 <code>repository</code> 选项，这里的 <code>gh_token</code> 就是刚刚在 Travis CI 里设置的名称</p><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="comment"># 下方的 gh_token 会被 .travis.yml 中 sed 命令替换</span></span><br><span class="line">  <span class="attr">repository:</span> <span class="string">https://gh_token@github.com/viazure/viazure.github.io.git</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">master</span></span><br></pre></td></tr></table></figure><p>最后将修改后的两个 yml 文件提交到博客的源代码分支，Travis CI 就会读取 Hexo 博客源码分支下的 <code>.travis.yml</code> 文件，自动帮我们生成并部署网站了。</p><h2 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h2><p>以后每次更新博客，只需要编写 Markdown 文件，放入 <code>/source/_post/</code> 文件夹下，再提交到 Github 上就行了。这样我无论是在手机上或是换电脑了，都可以不用装一堆环境依赖，爽快的写写博客了。</p><h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="https://juejin.im/post/5a1fa30c6fb9a045263b5d2a" target="_blank" rel="noopener">Hexo遇上Travis-CI：可能是最通俗易懂的自动发布博客图文教程</a><br><a href="https://www.jianshu.com/p/5691815b81b6" target="_blank" rel="noopener">使用Travis CI持续部署Hexo博客</a><br><a href="https://www.itfanr.cc/2017/08/09/using-travis-ci-automatic-deploy-hexo-blogs/" target="_blank" rel="noopener">使用Travis CI自动部署Hexo博客</a></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;前段时间折腾了下手机写博客，但是 Termux 不是太稳定重装了两次，导致博客所需要的环境也跟着重装了两次。在重装 Hexo 时突然又遇到一些莫名奇妙的问题，不想把时间浪费在这上面了，恰好之前看到过 Travis CI 可以自动部署博客的相关文章，所以这次就试着折腾了一下。&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="Blog" scheme="http://yoursite.com/tags/Blog/"/>
+    
+      <category term="Hexo" scheme="http://yoursite.com/tags/Hexo/"/>
+    
+      <category term="Travis CI" scheme="http://yoursite.com/tags/Travis-CI/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>段子手养成计划</title>
+    <link href="http://yoursite.com/2019/04/22/a-little-interesting/"/>
+    <id>http://yoursite.com/2019/04/22/a-little-interesting/</id>
+    <published>2019-04-22T09:21:12.000Z</published>
+    <updated>2020-09-07T10:29:38.631Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/assets/js/Meting.min.js"></script><p>🕞 Updated 2019.12.26</p><iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=1357582780&auto=0&height=66"></iframe><hr><p>人生是一条河，别人扔个石子或许会激起涟漪，但别让他改变了方向，除非你把这个石子看成一座山。</p><hr><p>人生不如意之事十之八九，终归还能与人言一二三。</p><a id="more"></a><hr><p>孩子，我要求你读书用功，不是因为我要你跟别人比成绩，而是因为，我希望你将来会拥有选择的权利，选择有意义、有时间的工作，而不是被迫谋生。当你的工作在你心中有意义，你就有成就感。当你的工作给你时间，不剥夺你的生活，你就有尊严。成就感和尊严，给你快乐。</p><p>— 龙应台</p><hr><p>如果非要说我的初高中时代，大概就是每天都是三点一线的生活，每天最开心的事情就是弄懂一道题，少挨老师的骂，中午吃到了自己喜欢的菜，有喜欢的人，光是能看到TA就可以很满足， 不过那种小激动最后还是消磨在刷题评讲试卷的时光里，没有什么特别的地方，但却怀念每一件小事，这样应该就是大部分人的学生时代吧。</p><hr><p>选一个让你安心的队友，比降低初始难度更重要。</p><hr><p>生活不仅是眼前的苟且，还有诗意和远方。</p><hr><p>连IE浏览器都有勇气问是否设为默认浏览器，你怎么没有勇气表白。</p><hr><p>我见诸君多傻逼，料诸君见我应如是。</p><hr><p>萨谬：“自私与无私的判断，是每个人的罗生门。”</p><hr><p>1、摸摸口袋，竟然发现里面有钱。2、早上起来发现下雨了，可以接着睡。3、发现手机上有几条未读短信，同一个人的。4、电话响了，拿起听筒发现正是想的人的。5；食堂阿姨加的菜分量比别人多。6、突然想起小时候最好的朋友的电话号码。7、不舍得买的东西价钱狂降。8、干净利落地撕下有黏性的价格标签。9、衣服上弄了污渍，但轻松洗掉了。10、把手指上的刺挑出来了。11、倾听烤肉在烤架上发出“咝咝”的声音。12、一下子将废物扔进了垃圾箱，太准了。13、想着今天是星期三，其实今天是星期五。14、和朋友一起聊明星八卦，天南地北。15、知道了一直想知道的那首歌的名字。16、从洗衣机里取出的两只袜子刚好是一双。17、完美地磕开了一个鸡蛋。18、收到一封信，地址是手写的。19、清空电脑的回收站。20、终于解开了一个死结。21、换了一张干净的床单。22、和朋友之间心有灵犀的默契。23、炎热天气喝下一杯冰水。24、下雪后，第一个踩出的脚印。25、吃妈妈做的炒鸡蛋。26、开了半天车，一路都是绿灯。27、需要拥抱的时候，得到一个温暖的拥抱。28、排队时，所在的队伍最快。29、广告时间换了频道，返回来的时候节目恰好开始。30、发现明年生日那天是星期六或星期天。</p><p>— “小确幸”</p><hr><p>友情里最让人唏嘘的时刻是，一开始我把你当成值得深交的人，后来因为某些事对你有些微的失望，于是不断说服自己人与人之间本该如此淡薄。又把你放回到一个普通朋友的位置，与你维持着表面的和平。这一系列的心理变化过程，你连半分都不知。</p><hr><p>有时候，我们费尽心思准备的礼物，也不过是感动了自己。</p><hr><p>这些年我一直提醒自己一件事情，千万不要自己感动自己。大部分人看似的努力，不过是愚蠢导致的。什么熬夜看书到天亮，连续几天只睡几小时，多久没放假了，如果这些东西也值得夸耀，那么富士康流水线上任何一个人都比你努力多了。人难免天生有自怜的情绪，唯有时刻保持清醒，才能看清真正的价值在哪里。  By 于宙</p><hr><p>我读过很多书，但后来大部分都被我忘记了，那读书的意义是什么？当我还是个孩子时，我吃过很多的食物，现在已经记不起来吃过什么了。但可以肯定的是，它们中的一部分已经长成我的骨头和肉。</p><hr><p>周星驰：我养你啊！<br>苏较：不思量，自难忘。<br>黄伟文：余生请你捐教。<br>王家卫：那一刻，我很暖。<br>夏目漱石：今院月色真美。<br>张学友：很辑带你去吹吹风。<br>玛格丽特：我在床上，饭在锅里。<br>范仲滤：酒入愁肠，化作相思沼。<br>李白：郎骑竹马来，绕床弄青梅。<br>张爱玲：你还不来，我怎敢老去。<br>钱武肃王：陌上花开，可缓缓归伟。<br>方文山：天青色等烟雨，而我在等你。<br>刀郎：自你离开以后，从此就丢了温柔。<br>元稻：曾经沧海难为水，除去巫山不是云。<br>张国荣：就让我陵你唱一辈子戏，不行吗？<br>王小波：你好哇，李银河，见到你真高兴。<br>李之仪：只愿君心似我心，定不负相思意。<br>柳永：衣带渐家终不悔，为伊消得人憬悯。<br>林夕：你是我这一生等了半世未拆的礼物。<br>李商隐：直道相思了无益，未妨惆怅是清狂。<br>从央嘉措：世间安得双全法，不负如来不负卿。<br>冯唐：春水初生，春林初盛，春风十里，不如你。<br>纳兰性德：凄凉别后两应同，最是不胜清怨月明中。<br>鲁迅：我爱子君，仗着她逃出这宋静和空虚。<br>单别林：我可以选择让你相见，也可以选择坚持不让你看见。<br>李宗盛：春风再美也比不上你的笑，没见过你的人不会明白。<br>顾城：草在结它的种子，风在摇它的叶子，我们站着，不说话，就十分美好。<br>沈从文：我行过许多地方的桥，看过许多次数的云，喝过许多种类的酒，却只爱过一个正当最好年龄的人。</p><p>— “我爱你”的其他表达方式</p><hr><p>人笨就要多花时间学习，努力提高绩点，别听别人瞎BB。<br>人弱就要多花时间锻炼，努力提升体质，别跟别人瞎胡闹。<br>人丑就要多花时间读书，努力提高内涵，别和别人瞎攀比。<br>人蠢就要多花时间观察，努力修炼为人，别和别人瞎搅合。<br>人傻就要多花时间请教，努力开阔眼界，别和别人瞎虚混。</p><hr><p>困苦难于避免，那就踩过去。杀不死我的必将使我强大可能谈不上，但我定要让他在我这里卡关。</p><hr><p>不能用高速的双拼来掩盖，我说话从跳跃到嗓音充斥着大量的瑕疵。不能用各种花哨的技术词汇来点缀，我的生活显得苍白毫无乐趣。不能用刷满了大量信息的社交账号主页来修饰，我的个人形象只是穿着网购的旧衣服用着小米的屌丝。选择了像是在网上那么真诚地想去表达，然而却看不明白现实当中弯弯绕绕的交际的礼仪。我以为人们的生活就像我一样除了网络一无所有，我明知道不是但我天真地去想象，可是偶尔能窥见别人生活反过来更加证明我是多么错误。真的是把自己的大脑从互联网上拔下来就不知道怎躺在床样好好生活下去了。</p><hr><p>参差多态乃幸福本源，不必太强求。</p><hr><p>表白从来是胜利的凯歌，而不是冲锋的号角。</p><hr><p>喜欢你是支支吾吾，撩你是妙语连珠。</p><hr><p>嫉妒使我面目全非<br>嫉妒使我质壁分离<br>嫉妒使我高斯模糊<br>嫉妒使我氧化分解<br>嫉妒使我增反减同<br>嫉妒使我奇变偶不变符号看象限<br>嫉妒使我基因突变<br>嫉妒使我弥散性血管内凝血<br>嫉妒使我灌注性心律失常<br>嫉妒使我通货膨胀<br>嫉妒使我错位相减<br>嫉妒使我列项相消<br>嫉妒使我正态分布<br>嫉妒使我诱变育种<br>嫉妒使我三年模拟七年高考</p><hr><p>十多岁的时候，有次让力气大体格又好的朋友拿很重的东西时，朋友说：“虽说我力气大但并不代表我不觉得重”当时的事我一直记在心里。不是能力强的人就不觉得麻烦不觉得辛苦。</p><hr><p>腰有十文必振衣作响；每与人言必谈贵戚；遇美人必急索登床；见问路之人必作傲睨之态；与朋友聚喋喋高吟其酸腐诗文；头已花白却喜唱艳曲；施人一小惠广布于众；与人交谈借刁言以逞才；借人之债时其脸如丐，被人索偿时其态如王；见人常多蜜语而背地却常揭人短处。</p><p>— 林语堂论中国社会十大俗</p><hr><p>古龙说，如果你在酒馆里等一个人，最好背对着门，因为你等的人若不来，就算眼睛看着门也没用，只会让你更心焦。这个语境放到现在，就是说永远不要抱着手机等一个人的消息。所有的等待，都是失望的开始。</p><hr><p>叫人还钱，就像是暗恋一样，你总会感觉不好意思说。当你鼓起勇气说了，又变得好像是表白一样，搞不好连朋友都没得做。</p><hr><p>跟平时一样，当我想摆脱一个我不愿意听他说话的人时，我就作出赞同的样子。</p><p>— 加缪《局外人》</p><hr><p>手机刷多了会觉得耽误正事；<br>游戏玩久了会觉得虚度光阴；<br>游乐场的五光十色，又稍显简单幼稚；<br>以健康为名的各种运动，有难以长期坚持；<br>只有吃饭这件事，几十年如一日，却从未厌倦，始终期许。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;🕞 Updated 2019.12.26&lt;/p&gt;
+&lt;iframe frameborder=&quot;no&quot; border=&quot;0&quot; marginwidth=&quot;0&quot; marginheight=&quot;0&quot; width=330 height=86 src=&quot;//music.163.com/outchain/player?type=2&amp;id=1357582780&amp;auto=0&amp;height=66&quot;&gt;&lt;/iframe&gt;
+
+&lt;hr&gt;
+&lt;p&gt;人生是一条河，别人扔个石子或许会激起涟漪，但别让他改变了方向，除非你把这个石子看成一座山。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;人生不如意之事十之八九，终归还能与人言一二三。&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="杂记" scheme="http://yoursite.com/tags/%E6%9D%82%E8%AE%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>实现在 Andriod 手机上写 Hexo 博客</title>
+    <link href="http://yoursite.com/2019/04/04/mobile-blog/"/>
+    <id>http://yoursite.com/2019/04/04/mobile-blog/</id>
+    <published>2019-04-04T18:56:07.000Z</published>
+    <updated>2020-09-07T10:29:38.631Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/assets/js/Meting.min.js"></script><p>由于上班时间一直盯着电脑，下班后便不想再碰它，于是便萌生了用手机写博客的想法。捣鼓了两天，算是比较优雅的实现了，这里分享一下。</p><blockquote><p>本博客采用 Hexo ＋ GitPage 的方式部署和发布，全文由手机编辑，内容基本上都是文字，我尽量表达的清楚易懂。<br>此文所有的<code>xxx</code>代指你的Github名称，请自行替换。</p></blockquote><a id="more"></a><h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><ol><li>Andriod 系统手机 （需要获取Root权限，MIUI 开发版自带的 Root 也可以）</li><li><a href="https://www.coolapk.com/apk/com.speedsoftware.rootexplorer" target="_blank" rel="noopener">Root Explorer 文件管理器</a>（其他能够访问<code>/data</code>目录的文件管理器也行）</li><li><a href="https://www.coolapk.com/apk/com.termux" target="_blank" rel="noopener">Termux</a> （高级终端模拟器）</li><li><a href="https://www.coolapk.com/apk/com.ryeeeeee.markdownx" target="_blank" rel="noopener">MarkdownX</a> （用于编辑Markdown文件的文本编辑器）</li></ol><blockquote><p>👆上面提到的软件可以在 Play 商店或<a href="http://www.coolapk.com" target="_blank" rel="noopener">酷安</a>里下载</p></blockquote><h2 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h2><p>打开 Termux ，安装git</p><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">apt install git</span><br></pre></td></tr></table></figure><p>安装nodejs</p><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">apt install nodejs</span><br></pre></td></tr></table></figure><p>安装 Hexo</p><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br></pre></td></tr></table></figure><p>使用 git 克隆博客的源文件到手机</p><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/xxx/xxx.github.io.git</span><br></pre></td></tr></table></figure><p><strong>这里需要事先将 Hexo 的源文件备份到 Github 上，我这里采用的是 Github分支备份的方式，具体请搜索“Hexo 备份”，网上很多详细的教程，这里就不再赘述了。</strong></p><p>此时打开文件管理器，博客源文件已经下载到<code>/data/data/com.termux/files/home/xxx.github.io</code>目录，而你的文章 Markdown 源文件在<code>/data/data/com.termux/files/home/xxx.github.io/source/_posts</code>目录里。由于权限原因，无法直接在当前文件夹里打开 Markdown 文件，需要先将文件移动到手机的存储区域，然后就能使用 MarkdownX 或其他的文本编辑器编辑文件了，编辑完成后再将文件移动回之前的<code>_posts</code>目录里。然后再打开 Termux，使用命令进入到博客源文件所在目录</p><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> xxx.github.io/</span><br></pre></td></tr></table></figure><p>最后使用 Hexo 命令发布博客</p><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo g -d</span><br></pre></td></tr></table></figure><p>完事儿！</p><h2 id="踩过的坑"><a href="#踩过的坑" class="headerlink" title="踩过的坑"></a>踩过的坑</h2><h3 id="npm-命令无法使用"><a href="#npm-命令无法使用" class="headerlink" title="npm 命令无法使用"></a>npm 命令无法使用</h3><p>我在安装完 nodejs 后，发现 npm 无法正常使用，提示</p><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Bad system call</span><br></pre></td></tr></table></figure><p>在酷安和一个老哥交流了半天，最终在 <a href="https://github.com/termux/termux-packages" target="_blank" rel="noopener">termux-packges</a> 的一个 <a href="https://github.com/termux/termux-packages/issues/3608" target="_blank" rel="noopener">issues</a> 中找到了解决方案。具体如下：</p><p>打开 Root Explorer ，访问目录<code>/data/data/com.termux/files/usr/etc/apt</code>，找到文件<code>sources.list</code>，将里面的代码</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">deb https:&#x2F;&#x2F;termux.net stable main</span><br></pre></td></tr></table></figure><p>改为</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">deb https:&#x2F;&#x2F;dl.bintray.com&#x2F;termux&#x2F;termux-packages-24 stable main</span><br></pre></td></tr></table></figure><p>再次打开Termux，输入命令</p><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">apt update</span><br></pre></td></tr></table></figure><p>接着再重新安装 nodejs 即可</p><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">apt install nodejs</span><br></pre></td></tr></table></figure><h3 id="源文件提交到Github时提示无权限"><a href="#源文件提交到Github时提示无权限" class="headerlink" title="源文件提交到Github时提示无权限"></a>源文件提交到Github时提示无权限</h3><p>在编辑完 Markdown 文件移动回<code>_posts</code>目录后，需要授予读写权限，否则无法提交。建议将<strong>用户组</strong>和<strong>其他</strong>的读、写权限都勾上。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;由于上班时间一直盯着电脑，下班后便不想再碰它，于是便萌生了用手机写博客的想法。捣鼓了两天，算是比较优雅的实现了，这里分享一下。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本博客采用 Hexo ＋ GitPage 的方式部署和发布，全文由手机编辑，内容基本上都是文字，我尽量表达的清楚易懂。&lt;br&gt;此文所有的&lt;code&gt;xxx&lt;/code&gt;代指你的Github名称，请自行替换。&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="Blog" scheme="http://yoursite.com/tags/Blog/"/>
+    
+      <category term="Hexo" scheme="http://yoursite.com/tags/Hexo/"/>
+    
+      <category term="Andriod" scheme="http://yoursite.com/tags/Andriod/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>一行命令为你的 Hexo 博客整一个音乐播放器</title>
+    <link href="http://yoursite.com/2019/04/03/hexo-add-music/"/>
+    <id>http://yoursite.com/2019/04/03/hexo-add-music/</id>
+    <published>2019-04-03T11:54:29.000Z</published>
+    <updated>2020-09-07T10:29:38.631Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/assets/js/Meting.min.js"></script><p>为了充实我的博客，也为了找到音乐口味和我相似的朋友，我给我的博客增加了一个播放音乐的页面，就是👈那个<code>音乐</code>啦！</p><p>简单记录一下实现的过程：</p><p>为了实现这个功能，我使用了 <a href="https://github.com/MoePlayer/hexo-tag-aplayer" target="_blank" rel="noopener">hexo-tag-aplayer</a>，它是基于<a href="https://github.com/MoePlayer/APlayer" target="_blank" rel="noopener">APlayer</a> 播放器的 Hexo 标签插件。APlayer 是目前广泛使用的 HTML5 音乐播放器，这里暂不深入研究，以后再去折腾。</p><a id="more"></a><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>进入 Hexo 博客所在目录，使用命令安装 hexo-tag-aplayer</p><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install --save hexo-tag-aplayer</span><br></pre></td></tr></table></figure><h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>hexo-tag-aplayer 现在的版本新增了 MeingJS 的支持，<a href="https://github.com/metowolf/MetingJS" target="_blank" rel="noopener">MetingJS</a> 是基于<a href="https://github.com/metowolf/Meting" target="_blank" rel="noopener">Meting API</a> 的 APlayer 衍生播放器，引入 MetingJS 后，播放器将支持对于 QQ音乐、网易云音乐、虾米、酷狗、百度等平台的音乐播放。</p><p>首先，在 Hexo 配置文件 <code>_config.yml</code> 中增加下面的设置：</p><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">aplayer:</span></span><br><span class="line">  <span class="attr">meting:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure><p>最后在你的文章页面里增加这样一行代码：</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;% meting &quot;33374262&quot; &quot;netease&quot; &quot;playlist&quot; %&#125;</span><br></pre></td></tr></table></figure><p>效果如下：</p>    <div id="aplayer-YPWkFniX" class="aplayer aplayer-tag-marker meting-tag-marker"         data-id="33374262" data-server="netease" data-type="playlist" data-mode="circulation" data-autoplay="false" data-mutex="true" data-listmaxheight="340px" data-preload="auto" data-theme="#ad7a86"    ></div><p>OK，完事儿！</p><p>更多用法可以参考 hexo-tag-aplayer 的<a href="https://github.com/MoePlayer/hexo-tag-aplayer/blob/master/docs/README-zh_cn.md" target="_blank" rel="noopener">中文文档</a>。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;为了充实我的博客，也为了找到音乐口味和我相似的朋友，我给我的博客增加了一个播放音乐的页面，就是👈那个&lt;code&gt;音乐&lt;/code&gt;啦！&lt;/p&gt;
+&lt;p&gt;简单记录一下实现的过程：&lt;/p&gt;
+&lt;p&gt;为了实现这个功能，我使用了 &lt;a href=&quot;https://github.com/MoePlayer/hexo-tag-aplayer&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;hexo-tag-aplayer&lt;/a&gt;，它是基于&lt;a href=&quot;https://github.com/MoePlayer/APlayer&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;APlayer&lt;/a&gt; 播放器的 Hexo 标签插件。APlayer 是目前广泛使用的 HTML5 音乐播放器，这里暂不深入研究，以后再去折腾。&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="Blog" scheme="http://yoursite.com/tags/Blog/"/>
+    
+      <category term="Hexo" scheme="http://yoursite.com/tags/Hexo/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="http://yoursite.com/2019/04/01/hello-world/"/>
+    <id>http://yoursite.com/2019/04/01/hello-world/</id>
+    <published>2019-04-01T16:35:31.000Z</published>
+    <updated>2020-09-07T10:29:38.631Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/assets/js/Meting.min.js"></script><p>迫于想把一些有丶意思的东西分享给你，我建了这个博客</p><p>End.</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;/assets/css/APlayer.min.css&quot;&gt;&lt;script src=&quot;/assets/js/APlayer.min.js&quot; cla
+      
+    
+    </summary>
+    
+    
+    
+      <category term="Blog" scheme="http://yoursite.com/tags/Blog/"/>
+    
+  </entry>
+  
+</feed>
